@@ -20,11 +20,11 @@ This repository contains the current Event-TARO implementation only. Model check
 
 ## 1. Motivation
 
-A standard fixed-\(G\) GRPO pipeline allocates the same number of responses to every prompt:
+A standard fixed-$G$ GRPO pipeline allocates the same number of responses to every prompt:
 
-\[
+$$
 G_1 = G_2 = \cdots = G_B = G.
-\]
+$$
 
 However, prompts can differ substantially in:
 
@@ -36,21 +36,21 @@ However, prompts can differ substantially in:
 
 Event-TARO therefore replaces fixed per-prompt rollout allocation with a dynamic scheduler.
 
-For prompt \(i\), the current implementation scores an additional rollout using:
+For prompt $i$, the current implementation scores an additional rollout using:
 
-\[
+$$
 S_i
 =
 \Delta U_i
 -
 \lambda_{\text{time}} C_i,
-\]
+$$
 
 where:
 
-- \(\Delta U_i\) is a heuristic marginal learning-utility term;
-- \(C_i\) is the normalized marginal makespan cost under the current active workload;
-- \(\lambda_{\text{time}} = 0.02\) in the current version.
+- $\Delta U_i$ is a heuristic marginal learning-utility term;
+- $C_i$ is the normalized marginal makespan cost under the current active workload;
+- $\lambda_{\text{time}} = 0.02$ in the current version.
 
 The scheduler is re-evaluated after rollout-completion events rather than only after a fully synchronous rollout stage.
 
@@ -123,46 +123,46 @@ The current implementation assumes binary or binary-like rewards and estimates p
 
 For observed rollout outcomes with:
 
-- \(s\) successes;
-- \(f\) failures;
+- $s$ successes;
+- $f$ failures;
 
 the posterior parameters are:
 
-\[
+$$
 a = 1+s,\qquad b = 1+f.
-\]
+$$
 
 Event-TARO uses the posterior expectation of Bernoulli outcome variance:
 
-\[
+$$
 U_i
 =
 \mathbb{E}[p(1-p)]
 =
 \frac{ab}
 {(a+b)(a+b+1)}.
-\]
+$$
 
 This is **not** the variance of the Beta posterior itself. It is the posterior expectation of the Bernoulli outcome variance.
 
 The current implementation converts this prompt-level utility into a diminishing-return heuristic:
 
-\[
+$$
 \Delta U_i
 =
 \frac{U_i}
 {G_i^{\text{effective}}+1},
-\]
+$$
 
 where:
 
-\[
+$$
 G_i^{\text{effective}}
 =
 G_i^{\text{completed}}
 +
 G_i^{\text{inflight}}.
-\]
+$$
 
 This utility is one concrete implementation of Event-TARO's scheduling interface; it is not intended to define the only possible learning-value estimator.
 
@@ -182,17 +182,17 @@ The table represents the measured change in makespan for candidate response leng
 
 For an active set of predicted response lengths, Event-TARO first converts the workload into an equivalent number of 8192-token long jobs:
 
-\[
+$$
 L_{\text{eq}}
 =
 \sum_j
 \frac{\min(\hat{\ell}_j,8192)}
 {8192}.
-\]
+$$
 
 It then estimates the marginal makespan increase of the candidate rollout and normalizes it by the reference cost of a standalone 8192-token request:
 
-\[
+$$
 C_i
 =
 \frac{
@@ -200,11 +200,11 @@ C_i
 }{
 T_{\text{reference}}
 }.
-\]
+$$
 
 The final scheduler score in the current release is therefore:
 
-\[
+$$
 \boxed{
 S_i
 =
@@ -212,7 +212,7 @@ S_i
 -
 0.02\,C_i
 }
-\]
+$$
 
 Candidate response length is estimated from previously observed response lengths for that prompt. Before observations are available, the default predicted length is 4096 tokens.
 
@@ -232,13 +232,13 @@ After the pilot stage, Event-TARO may activate prompts for further rollout alloc
 
 Once the minimum number of selected prompts has already been reached, a previously unselected prompt must pass an activation gate based on its matched-pilot utility snapshot:
 
-\[
+$$
 U_{\text{pilot,new}}
 >
 \min_j U_{\text{pilot},j}
 +
 \epsilon.
-\]
+$$
 
 The current release uses:
 
@@ -246,7 +246,7 @@ The current release uses:
 activation_epsilon = 1e-6
 ```
 
-Using matched pilot snapshots avoids directly comparing an unselected low-\(G\) prompt against selected prompts whose posterior utilities have already changed after additional rollout observations.
+Using matched pilot snapshots avoids directly comparing an unselected low-$G$ prompt against selected prompts whose posterior utilities have already changed after additional rollout observations.
 
 ---
 
@@ -258,7 +258,7 @@ Event-TARO therefore maintains a rollout-budget reservation invariant.
 
 Before dispatching an additional rollout, the scheduler accounts for:
 
-1. rollout debt required for already selected prompts to reach \(G_{\min}\);
+1. rollout debt required for already selected prompts to reach $G_{\min}$;
 2. rollout budget required to activate enough future groups to satisfy `min_selected`.
 
 Only candidates that preserve these obligations are considered feasible.
@@ -276,8 +276,8 @@ At the end of a valid Event-TARO step:
 
 - the total generation budget is exhausted;
 - the minimum number of trainable groups is satisfied;
-- every selected group reaches at least \(G_{\min}\);
-- no group exceeds \(G_{\max}\);
+- every selected group reaches at least $G_{\min}$;
+- no group exceeds $G_{\max}$;
 - the final reservation debt is zero.
 
 ---
@@ -292,7 +292,7 @@ The current release distinguishes two stages.
 
 ### Commit Window
 
-The commit window controls speculative dispatch while a selected prompt progresses from the pilot stage toward \(G_{\min}\).
+The commit window controls speculative dispatch while a selected prompt progresses from the pilot stage toward $G_{\min}$.
 
 ```text
 commit_window = 2
@@ -300,7 +300,7 @@ commit_window = 2
 
 ### Adaptive Window
 
-After the prompt has committed enough rollout budget to reach the trainable group size, the adaptive window limits additional speculative post-\(G_{\min}\) rollouts.
+After the prompt has committed enough rollout budget to reach the trainable group size, the adaptive window limits additional speculative post-$G_{\min}$ rollouts.
 
 ```text
 adaptive_window = 2
@@ -308,11 +308,11 @@ adaptive_window = 2
 
 These windows trade off:
 
-\[
+$$
 \text{decision freshness}
 \quad\leftrightarrow\quad
 \text{generation concurrency}.
-\]
+$$
 
 ---
 
@@ -371,13 +371,13 @@ verl/trainer/ppo/ray_trainer.py
 The trainer hook selects between:
 
 - the standard `verl` rollout path; and
-- the Event-TARO variable-\(G\) rollout path.
+- the Event-TARO variable-$G$ rollout path.
 
 When Event-TARO is disabled, the original fixed-rollout generation path remains available.
 
 ---
 
-## 11. Variable-\(G\) Training Batch Reconstruction
+## 11. Variable-$G$ Training Batch Reconstruction
 
 Event-TARO generates a fixed total rollout budget per step but can allocate different numbers of rollouts to different prompts.
 
@@ -385,11 +385,11 @@ After scheduling finishes:
 
 1. selected prompt groups are collected;
 2. rollouts belonging only to rejected pilot groups are excluded from the training batch;
-3. the selected variable-\(G\) responses are reconstructed into a valid `verl` `DataProto`;
+3. the selected variable-$G$ responses are reconstructed into a valid `verl` `DataProto`;
 4. the original prompt `uid` is preserved for GRPO group normalization;
 5. Event-TARO diagnostic IDs are added for tracing.
 
-The bridge then returns a self-contained variable-\(G\) PPO/GRPO batch to the normal trainer.
+The bridge then returns a self-contained variable-$G$ PPO/GRPO batch to the normal trainer.
 
 ---
 
@@ -403,7 +403,7 @@ The trace includes:
 - prompt-level response lengths;
 - pilot utilities;
 - selected prompts;
-- final generated \(G\) for every prompt;
+- final generated $G$ for every prompt;
 - rollout-completion events;
 - scheduling decisions;
 - predicted response lengths;
