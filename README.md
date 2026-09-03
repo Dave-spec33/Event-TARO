@@ -22,9 +22,9 @@ This repository contains the current Event-TARO implementation only. Model check
 
 A standard fixed-$G$ GRPO pipeline allocates the same number of responses to every prompt:
 
-$$
+```math
 G_1 = G_2 = \cdots = G_B = G.
-$$
+```
 
 However, prompts can differ substantially in:
 
@@ -38,13 +38,13 @@ Event-TARO therefore replaces fixed per-prompt rollout allocation with a dynamic
 
 For prompt $i$, the current implementation scores an additional rollout using:
 
-$$
+```math
 S_i
 =
 \Delta U_i
 -
 \lambda_{\text{time}} C_i,
-$$
+```
 
 where:
 
@@ -128,41 +128,41 @@ For observed rollout outcomes with:
 
 the posterior parameters are:
 
-$$
+```math
 a = 1+s,\qquad b = 1+f.
-$$
+```
 
 Event-TARO uses the posterior expectation of Bernoulli outcome variance:
 
-$$
+```math
 U_i
 =
 \mathbb{E}[p(1-p)]
 =
 \frac{ab}
 {(a+b)(a+b+1)}.
-$$
+```
 
 This is **not** the variance of the Beta posterior itself. It is the posterior expectation of the Bernoulli outcome variance.
 
 The current implementation converts this prompt-level utility into a diminishing-return heuristic:
 
-$$
+```math
 \Delta U_i
 =
 \frac{U_i}
 {G_i^{\text{effective}}+1},
-$$
+```
 
 where:
 
-$$
+```math
 G_i^{\text{effective}}
 =
 G_i^{\text{completed}}
 +
 G_i^{\text{inflight}}.
-$$
+```
 
 This utility is one concrete implementation of Event-TARO's scheduling interface; it is not intended to define the only possible learning-value estimator.
 
@@ -182,17 +182,17 @@ The table represents the measured change in makespan for candidate response leng
 
 For an active set of predicted response lengths, Event-TARO first converts the workload into an equivalent number of 8192-token long jobs:
 
-$$
+```math
 L_{\text{eq}}
 =
 \sum_j
 \frac{\min(\hat{\ell}_j,8192)}
 {8192}.
-$$
+```
 
 It then estimates the marginal makespan increase of the candidate rollout and normalizes it by the reference cost of a standalone 8192-token request:
 
-$$
+```math
 C_i
 =
 \frac{
@@ -200,11 +200,11 @@ C_i
 }{
 T_{\text{reference}}
 }.
-$$
+```
 
 The final scheduler score in the current release is therefore:
 
-$$
+```math
 \boxed{
 S_i
 =
@@ -212,7 +212,7 @@ S_i
 -
 0.02\,C_i
 }
-$$
+```
 
 Candidate response length is estimated from previously observed response lengths for that prompt. Before observations are available, the default predicted length is 4096 tokens.
 
@@ -232,13 +232,13 @@ After the pilot stage, Event-TARO may activate prompts for further rollout alloc
 
 Once the minimum number of selected prompts has already been reached, a previously unselected prompt must pass an activation gate based on its matched-pilot utility snapshot:
 
-$$
+```math
 U_{\text{pilot,new}}
 >
 \min_j U_{\text{pilot},j}
 +
 \epsilon.
-$$
+```
 
 The current release uses:
 
@@ -308,11 +308,11 @@ adaptive_window = 2
 
 These windows trade off:
 
-$$
+```math
 \text{decision freshness}
 \quad\leftrightarrow\quad
 \text{generation concurrency}.
-$$
+```
 
 ---
 
