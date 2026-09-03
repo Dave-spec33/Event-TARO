@@ -24,7 +24,7 @@ This repository contains the current Event-TARO implementation only. Model check
 
 ### Endpoint comparison
 
-![Seed-42 endpoint comparison](assets/results/seed42/seed42_endpoint_scores.png)
+![Seed-42 endpoint comparison](results/seed42/seed42_endpoint_scores.png)
 
 | Method | Step | Generated rollouts / step | Total generated rollouts | Train rollouts / step | Validation score |
 |---|---:|---:|---:|---:|---:|
@@ -38,7 +38,7 @@ This repository contains the current Event-TARO implementation only. Model check
 
 ### Controlled comparison: TARO-v2 Base-G4 vs Fixed-G5
 
-![TARO-v2 vs Fixed-G5](assets/results/seed42/seed42_g5_vs_v2.png)
+![TARO-v2 vs Fixed-G5](results/seed42/seed42_g5_vs_v2.png)
 
 The cleanest controlled comparison keeps the prompt pool, rollout budget, training-step count, and number of train rollouts matched:
 
@@ -47,7 +47,7 @@ The cleanest controlled comparison keeps the prompt pool, rollout budget, traini
 
 ### Structural ablation
 
-![Seed-42 pairwise effects](assets/results/seed42/seed42_pairwise_effects.png)
+![Seed-42 pairwise effects](results/seed42/seed42_pairwise_effects.png)
 
 Removing the early hard prompt-admission stage and using mandatory Base-G4 yields:
 
