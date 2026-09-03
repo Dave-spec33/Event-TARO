@@ -1,0 +1,94 @@
+# Event-TARO reference environment
+# =================================
+#
+# Event-TARO patches a SOURCE checkout of verl v0.7.1.
+# Do NOT add `verl==0.7.1` here and then patch site-packages.
+#
+# Reference system used for the current release:
+#   Python: 3.12.3
+#   CUDA:   12.8
+#
+# CUDA and the NVIDIA driver are system-level dependencies and are therefore
+# intentionally not encoded in this pip requirements file.
+#
+# Recommended installation order:
+#   1. Prepare Python 3.12 + CUDA 12.8.
+#   2. Clone and checkout the pinned verl v0.7.1 commit.
+#   3. pip install -r requirements.txt
+#   4. pip install -e /path/to/verl
+#   5. Apply the Event-TARO patch / source files.
+#
+# NOTE ABOUT FLASH-ATTN:
+# On some systems flash-attn may need to be installed separately after torch:
+#
+#   pip install flash-attn==2.8.1 --no-build-isolation
+#
+# The versions below match the environment used by the current Event-TARO
+# implementation and stay within verl v0.7.1's dependency constraints.
+
+# ----------------------------------------------------------------------
+# Core GPU / training / rollout stack
+# ----------------------------------------------------------------------
+
+torch==2.8.0
+vllm==0.11.0
+
+megatron-core==0.15.0
+mbridge==0.15.1
+
+transformer-engine[pytorch]==2.9.0
+flash-attn==2.8.1
+
+# ----------------------------------------------------------------------
+# verl v0.7.1 core dependencies
+# ----------------------------------------------------------------------
+
+accelerate==1.14.0
+codetiming==1.4.0
+datasets==5.0.1
+dill==0.4.1
+hydra-core==1.3.5
+liger-kernel==0.8.2
+
+# verl v0.7.1 requires numpy < 2.0.
+numpy==1.26.4
+
+pandas==3.0.5
+peft==0.20.0
+pyarrow==25.0.1
+pybind11==3.1.0
+pylatexenc==2.11
+
+# verl v0.7.1 requires ray >= 2.41.0.
+ray[default]==2.58.0
+
+# verl v0.7.1 allows:
+#   tensordict >= 0.8.0, <= 0.10.0, != 0.9.0
+tensordict==0.10.0
+
+torchdata==0.11.0
+transformers==4.57.6
+
+wandb==0.28.2
+packaging==25.0
+tensorboard==2.20.0
+
+# ----------------------------------------------------------------------
+# Async rollout / server dependencies
+# ----------------------------------------------------------------------
+
+fastapi==0.141.1
+uvicorn==0.52.4
+
+# ----------------------------------------------------------------------
+# Mathematical-reasoning reward used by the reference scripts
+# ----------------------------------------------------------------------
+
+latex2sympy2-extended==1.11.0
+math-verify==0.9.0
+
+# ----------------------------------------------------------------------
+# Tests
+# ----------------------------------------------------------------------
+
+pytest==9.1.1
