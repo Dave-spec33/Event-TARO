@@ -351,7 +351,6 @@ Event-TARO intentionally keeps its modifications to upstream `verl` small.
 ```text
 sources/taro_event_manager.py
     -> verl/experimental/agent_loop/taro_event_manager.py
-
 sources/taro_event_online.py
     -> verl/trainer/ppo/taro_event_online.py
 ```
@@ -509,7 +508,6 @@ From the Event-TARO repository:
 ```bash
 cp sources/taro_event_manager.py \
     /path/to/verl/verl/experimental/agent_loop/taro_event_manager.py
-
 cp sources/taro_event_online.py \
     /path/to/verl/verl/trainer/ppo/taro_event_online.py
 ```
