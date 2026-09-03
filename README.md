@@ -26,15 +26,15 @@ This repository contains the current Event-TARO implementation only. Model check
 
 ![Seed-42 endpoint comparison](assets/results/seed42/seed42_endpoint_scores.png)
 
-| Method | Step | Prompt pool | Generated rollouts / step | Total generated rollouts | Train rollouts / step | Validation score |
-|---|---:|---:|---:|---:|---:|---:|
-| Fixed-G5 @160 | 160 | 4 | 20 | 3200 | 20 | 79.76% |
-| TARO-v1 @160 | 160 | 4 | 20 | 3200 | variable (~18) | 79.37% |
-| TARO-v2 Base-G4 @160 | 160 | 4 | 20 | 3200 | 20 | 82.32% |
-| Fixed-G8 @200 | 200 | 2 | 16 | 3200 | 16 | 81.93% |
-| Fixed-G5 @200 | 200 | 4 | 20 | 4000 | 20 | 80.35% |
-| TARO-v1 @200 | 200 | 4 | 20 | 4000 | variable (~18) | 81.34% |
-| TARO-v2 Base-G4 @200 | 200 | 4 | 20 | 4000 | 20 | 82.71% |
+| Method | Step | Generated rollouts / step | Total generated rollouts | Train rollouts / step | Validation score |
+|---|---:|---:|---:|---:|---:|
+| Fixed-G5 @160 | 160 | 20 | 3200 | 20 | 79.76% |
+| TARO-v1 @160 | 160 | 20 | 3200 | variable (~18) | 79.37% |
+| TARO-v2 Base-G4 @160 | 160 | 20 | 3200 | 20 | 82.32% |
+| Fixed-G8 @200 | 200 | 16 | 3200 | 16 | 81.93% |
+| Fixed-G5 @200 | 200 | 20 | 4000 | 20 | 80.35% |
+| TARO-v1 @200 | 200 | 20 | 4000 | variable (~18) | 81.34% |
+| TARO-v2 Base-G4 @200 | 200 | 20 | 4000 | 20 | 82.71% |
 
 ### Controlled comparison: TARO-v2 Base-G4 vs Fixed-G5
 
