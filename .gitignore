@@ -1,0 +1,164 @@
+# ============================================================
+# Event-TARO .gitignore
+# ============================================================
+
+# ------------------------------------------------------------
+# Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ------------------------------------------------------------
+# Virtual environments / local environment
+# ------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.conda/
+.python-version
+
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------
+# IDE / editor / OS
+# ------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ------------------------------------------------------------
+# Python packaging / build artifacts
+# ------------------------------------------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# ------------------------------------------------------------
+# Upstream verl checkout
+#
+# Event-TARO publishes only its source additions and the patch
+# against verl. Do not accidentally commit a complete local
+# verl checkout into this repository.
+# ------------------------------------------------------------
+/verl/
+
+# ------------------------------------------------------------
+# Models / checkpoints / large training artifacts
+# ------------------------------------------------------------
+/models/
+/checkpoints/
+
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+
+# Hugging Face / model caches
+.cache/
+huggingface/
+hf_cache/
+
+# ------------------------------------------------------------
+# Datasets
+# ------------------------------------------------------------
+/data/
+*.parquet
+*.arrow
+
+# ------------------------------------------------------------
+# Training / evaluation outputs
+# ------------------------------------------------------------
+/outputs/
+/analysis/
+/logs/
+/runs/
+/results/
+
+wandb/
+ray_results/
+.ray/
+
+*.log
+
+# Event-TARO runtime traces / generated samples
+taro_event_decisions.jsonl
+taro_decisions.jsonl
+
+# Common generated rollout / validation directories if created
+# at repository root.
+/rollouts/
+/validation/
+/taro_trace/
+
+# ------------------------------------------------------------
+# Profiler / runtime artifacts
+# ------------------------------------------------------------
+profile/
+profiles/
+nsys/
+*.nsys-rep
+*.qdrep
+
+# ------------------------------------------------------------
+# Local wheels / dependency caches
+# ------------------------------------------------------------
+wheelhouse/
+wheelhouse_fix/
+*.whl
+
+# ------------------------------------------------------------
+# Temporary / backup / patch-development files
+# ------------------------------------------------------------
+*.bak
+*.backup
+*.orig
+*.rej
+
+*.before_*
+*.pre_taro_*
+*before_event_taro*
+
+# ------------------------------------------------------------
+# Archives and local bundles
+# ------------------------------------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# ------------------------------------------------------------
+# Jupyter
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+
+# ------------------------------------------------------------
+# IMPORTANT TRACKED ARTIFACTS
+# ------------------------------------------------------------
+# Do NOT add a blanket `*.csv` rule here.
+#
+# The following runtime calibration file is intended to remain tracked:
+#
+#   cost_model/makespan_v2_results.csv
+#
+# Likewise, sources/, patches/, scripts/, rewards/, tests/, docs/,
+# README.md, LICENSE, and requirements.txt should remain tracked.
